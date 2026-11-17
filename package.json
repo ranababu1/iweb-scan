@@ -1,0 +1,22 @@
+{
+  "name": "iweb-scan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI readiness scanner for iWeb & SEO: can AI assistants find, understand and act on a website?",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/*.test.js",
+    "og": "npm i --no-save @resvg/resvg-js && node scripts/make-og.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^4.22.3",
+    "undici": "^6.29.1"
+  }
+}
