@@ -125,7 +125,13 @@ app.get('/admin/leads.csv', (req, res) => {
 });
 
 /* ---------- pages ---------- */
-app.get('/', (req, res) => res.send(views.home({ recent: store.recentReports(8).filter((r) => !r.fatal) })));
+app.get('/', (req, res) => {
+  if (req.query.domain) {
+    const d = normalizeDomain(String(req.query.domain));
+    if (d) return res.redirect(`/score/${d}`);
+  }
+  return res.send(views.home({ recent: store.recentReports(8).filter((r) => !r.fatal) }));
+});
 
 app.get('/scan', (req, res) => {
   const domain = normalizeDomain(String(req.query.domain || ''));
