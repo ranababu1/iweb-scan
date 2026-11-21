@@ -21,8 +21,8 @@ test.after(() => server.close());
 
 test('homepage renders the hero', async () => {
   const html = await (await fetch(base + '/')).text();
-  assert.match(html, /Can AI assistants find you, understand you, and take your booking\?/);
-  assert.match(html, /Scan my site/);
+  assert.match(html, /When a customer asks ChatGPT who to call, does it say your name\?/);
+  assert.match(html, /Check my business free/);
 });
 
 test('report page, badge and tools render from cache', async () => {

@@ -48,7 +48,7 @@
       var btn = $('button', form);
       btn.disabled = true; btn.textContent = 'Scanning…';
       var box = form.parentNode.querySelector('[data-progress]');
-      runScan(d, msg, box, function () { btn.disabled = false; btn.textContent = 'Scan my site'; });
+      runScan(d, msg, box, function () { btn.disabled = false; btn.textContent = 'Check my business free'; });
     });
   });
 

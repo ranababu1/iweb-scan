@@ -36,7 +36,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : ''}
 ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="https://iwebandseo.com/wp-content/uploads/2026/10/iws-icon-512-150x150.png">
-<link rel="stylesheet" href="/static/styles.css?v=1">
+<link rel="stylesheet" href="/static/styles.css?v=2">
 ${extraHead}
 </head>
 <body>
@@ -46,7 +46,7 @@ ${extraHead}
     <nav class="nav">
       <a href="/tools">Free tools</a>
       <a href="/bot">About the scanner</a>
-      <a class="nav-cta" href="${BOOK}">Book a call</a>
+      <a class="nav-cta" href="/#scan">Get my free scan</a>
     </nav>
   </div>
 </header>
@@ -63,7 +63,7 @@ ${extraHead}
     </div>
   </div>
 </footer>
-<script src="/static/app.js?v=1" defer></script>
+<script src="/static/app.js?v=2" defer></script>
 </body>
 </html>`;
 }
@@ -72,49 +72,96 @@ function scanForm(value = '', compact = false) {
   return `<form class="scan-form${compact ? ' compact' : ''}" action="/scan" method="get" data-scan-form>
   <label class="sr-only" for="domain${compact ? '2' : ''}">Your website</label>
   <input id="domain${compact ? '2' : ''}" name="domain" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourbusiness.com" value="${esc(value)}" required maxlength="253">
-  <button type="submit">Scan my site</button>
+  <button type="submit">Check my business free</button>
 </form>
 <p class="form-msg" data-form-msg role="status" aria-live="polite"></p>`;
 }
 
 function home({ recent = [] }) {
+  const pillars = [
+    { name: 'Findable', weight: 20, q: 'Can AI find you at all?', stake: "If not, you're never in the answer." },
+    { name: 'Understood', weight: 25, q: 'Does AI know what you do and where?', stake: 'Otherwise it describes you wrong or skips you.' },
+    { name: 'Actionable', weight: 25, q: 'Can AI help a customer call, enquire or book?', stake: 'This is where enquiries are won or lost.' },
+    { name: 'Trusted', weight: 15, q: 'Is there enough proof for AI to recommend you?', stake: 'Reviews, credentials, a real address.' },
+    { name: 'Reachable', weight: 15, q: 'Do your pages load fast and stay unblocked?', stake: 'A slow or blocked page gets dropped.' },
+  ];
   const body = `
-<section class="hero">
+<section class="hero" id="scan">
   <div class="wrap hero-in">
     <p class="eyebrow">Free AI readiness check</p>
-    <h1>Can AI assistants find you, understand you, and take your booking?</h1>
-    <p class="lede">More customers now ask ChatGPT, Gemini, Perplexity and other AI agents who to call, where to book and what to buy. In about 20 seconds, see whether those assistants can discover your business, understand what you offer, and help a customer enquire, book or buy.</p>
+    <h1>When a customer asks ChatGPT who to call, does it say your name?</h1>
+    <p class="lede">More customers now ask AI where to book, who to call and what to buy. This free scan shows whether those assistants can find you, explain what you do and send people to your booking or contact page.</p>
     ${scanForm()}
-    <p class="hero-note">No signup. We only read public pages. <a href="/bot">How the scan works</a></p>
+    <p class="hero-note">No signup · We only read public pages · Results in about 30 seconds · <a href="/bot">How the scan works</a></p>
     <div class="scan-progress" data-progress hidden>
       <div class="bar"><span></span></div>
       <ul class="steps">
         <li>Checking robots.txt, sitemap and llms.txt</li>
         <li>Visiting as ChatGPT, Perplexity and Claude</li>
-        <li>Reading your schema, content and contact paths</li>
+        <li>Reading your services, hours, prices and contact details</li>
         <li>Scoring 30+ checks</li>
       </ul>
     </div>
   </div>
 </section>
 
+<section class="wrap scan-how">
+  <h2>How the scan works</h2>
+  <ol class="how-list">
+    <li><strong>We check whether AI tools are allowed in</strong><span>robots.txt, sitemap, llms.txt</span></li>
+    <li><strong>We visit your site the way ChatGPT, Perplexity and Claude do</strong></li>
+    <li><strong>We read what they'd read: your services, hours, prices and contact details</strong></li>
+    <li><strong>You get a score out of 100 and a fix list</strong><span>30+ checks</span></li>
+  </ol>
+</section>
+
 <section class="wrap pillars">
   <h2>Five things AI needs from your website</h2>
   <div class="grid5">
-    ${CATEGORIES.map((c) => `<div class="pillar"><div class="pillar-w">${c.weight} pts</div><h3>${c.name}</h3><p>${esc(c.blurb)}</p></div>`).join('')}
+    ${pillars.map((c) => `<div class="pillar"><div class="pillar-w">${c.weight} pts</div><h3>${c.name}</h3><p>${esc(c.q)}</p><p class="pillar-stake">${esc(c.stake)}</p></div>`).join('')}
+  </div>
+</section>
+
+<section class="wrap example-report">
+  <p class="example-kicker">Example report</p>
+  <div class="example-card" aria-label="Example report, for illustration only">
+    <div class="example-top">
+      <div class="example-gauge"><span>72<small>/100</small></span></div>
+      <div>
+        <p class="example-domain">yourclinic.com</p>
+        <p class="example-grade"><b>C</b> Visible, but hard to act on</p>
+      </div>
+    </div>
+    <ul class="example-bars">
+      <li><span>Findable</span><i style="--w:86%"></i><em>17/20</em></li>
+      <li><span>Understood</span><i style="--w:70%"></i><em>18/25</em></li>
+      <li class="is-low"><span>Actionable</span><i style="--w:44%"></i><em>11/25</em></li>
+      <li><span>Trusted</span><i style="--w:82%"></i><em>12/15</em></li>
+      <li><span>Reachable</span><i style="--w:78%"></i><em>12/15</em></li>
+    </ul>
+    <div class="example-fixes">
+      <p>Top fixes</p>
+      <ol>
+        <li>Let assistants submit your booking form</li>
+        <li>Put opening hours in text, not an image</li>
+        <li>Add an llms.txt file</li>
+      </ol>
+    </div>
   </div>
 </section>
 
 <section class="wrap split">
   <div>
-    <h2>Scored fairly for real businesses</h2>
-    <p>Most AI-readiness tools grade every site like a software company with an API. A dental clinic, hotel, law firm or local shop shouldn't fail for lacking developer protocols it will never need.</p>
-    <p>We check what actually decides whether an assistant recommends you and can act on it: can it get in, does it understand who you are, and is there a real way for a customer to enquire, book or buy? If you don't sell online, you aren't marked down for it.</p>
+    <h2>Scored like a local business, not a software company.</h2>
+    <p>Most AI-readiness tools mark you down for missing developer features you'll never need. We don't. If you don't sell online, you won't lose points for it.</p>
   </div>
   <div class="card">
-    <h3>Then we fix it for you</h3>
-    <p>Every issue in your report comes with a plain-English fix. Do it yourself with our free tools, or have the iWeb &amp; SEO team handle it: schema, llms.txt, robots rules, firewall settings, booking flows and the content AI needs.</p>
-    <a class="btn" href="${BOOK}">Talk to us</a>
+    <h3>Every problem comes with a fix in plain English.</h3>
+    <p>Do it yourself with free tools, or let us handle it.</p>
+    <div class="cta-row">
+      <a class="btn" href="#scan">Get my free report</a>
+      <a class="btn ghost" href="${BOOK}">Fix it for me</a>
+    </div>
   </div>
 </section>
 
@@ -123,13 +170,22 @@ ${recent.length ? `<section class="wrap recent">
   <div class="recent-list">${recent.map((r) => `<a class="recent-item" href="/score/${esc(r.domain)}"><span class="pill" style="background:${gradeColor(r.grade)}">${esc(r.grade)}</span><span>${esc(r.domain)}</span><span class="muted">${r.score}/100</span></a>`).join('')}</div>
 </section>` : ''}
 
+<section class="wrap faq">
+  <h2>Good questions, straight answers</h2>
+  <details><summary>What is AI agent readiness?</summary><p>It is how well AI assistants and agents can find your website, understand what you offer and take an action for someone, such as sending an enquiry, booking an appointment or buying a product. A site can rank well on Google and still be hard for an assistant to read or use.</p></details>
+  <details><summary>Is the scan really free?</summary><p>Yes. The scan and the full report are free, and you do not need an account. If you want help with the fixes you can ask us, but you never have to hand over your details to see your score.</p></details>
+  <details><summary>Do you store my data?</summary><p>The scanner only reads public pages that anyone can open, such as your homepage, robots.txt and sitemap. It does not log in, submit your forms or touch anything private. Your report gets its own link so you can come back to it or share it.</p></details>
+  <details><summary>How is this different from SEO?</summary><p>SEO is mostly about ranking in search results. Agent readiness covers some of the same ground, then goes further: whether assistants are allowed in at all, whether they can read your key facts without running scripts, and whether they can complete a task on your site. Good SEO helps, but it does not cover those last two.</p></details>
+  <details><summary>What happens after the scan?</summary><p>You get your score and fix list straight away. You can work through it yourself, share it with your developer, or ask us to quote for the fixes. There is no sales call unless you want one.</p></details>
+</section>
+
 <section class="wrap cta-band">
   <h2>Check your site now</h2>
   ${scanForm('', true)}
 </section>`;
   return layout({
-    title: 'AI Readiness Scan – can ChatGPT & AI agents find and book you? | iWeb & SEO',
-    description: 'Free scan: see whether ChatGPT, Gemini, Perplexity and other AI assistants can find your business, understand it, and help customers enquire, book or buy.',
+    title: 'AI Readiness Scan: Does ChatGPT Know Your Business? | IWS',
+    description: 'See in 30 seconds whether ChatGPT, Gemini and Perplexity can find your business, describe it correctly and send you customers. Free, no signup.',
     canonical: BASE + '/',
     body,
   });
